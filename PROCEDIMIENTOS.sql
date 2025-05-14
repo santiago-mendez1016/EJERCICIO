@@ -16,6 +16,7 @@ END //
 DELIMITER ;
 
 
+
 Use tecno;
 DROP PROCEDURE IF EXISTS insertar_producto;
 
@@ -30,6 +31,23 @@ CREATE PROCEDURE `insertar_producto`(
 BEGIN
 	INSERT INTO producto(nombre, precio, codigo_fabricante)
     VALUES(nombre, precio_produc, cod_fabricante);
+END //
+
+DELIMITER ;
+
+
+
+Use tecno;
+DROP PROCEDURE IF EXISTS usd_E;
+
+DELIMITER //
+
+
+CREATE PROCEDURE `convertir_a_euros`(
+    
+)
+BEGIN
+	
 END //
 
 DELIMITER ;

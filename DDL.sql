@@ -15,3 +15,4 @@ create table producto(
 );
 
 ALTER TABLE producto ADD constraint fk_nombre foreign key (codigo_fabricante) references  fabricante(codigo);
+
