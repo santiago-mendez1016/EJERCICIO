@@ -22,67 +22,68 @@ CALL insertar_producto('Portátil Ideapd 320',444, 2);
 CALL insertar_producto('Impresora HP Deskjet 3720', 59.99, 3);
 CALL insertar_producto('Impresora HP Laserjet Pro M26nw', 180, 3);
 
-select * from producto;
 
-
-
-
-
+-- 1
 SELECT nombre from producto;
 
-
+-- 2
 SELECT nombre, precio from producto;
 
+-- 3
+select * from producto;
 
+-- 4
 SELECT 
 	nombre as producto,
 	precio as precio_usd,
     ROUND(precio * 0.93, 2) as precio_eur
 from producto;
 
-
+-- 5
 SELECT	
 	nombre as nombredeproducto,
-    precio as dolares,
-    ROUND(precio * 0.93, 2) as euros
+    ROUND(precio * 0.93, 2) as euros,
+    precio as dolares
 from producto;
 
+-- 6
 SELECT
 	UPPER(nombre) as nombre,
     precio as dolares,
     round(precio * 0.93, 2) as euros
 from producto;
 
+-- 7
 SELECT 
 	LOWER(nombre) as nombre,
     precio as dolares,
     round(precio * 0.93, 2) as euros
 from producto;
 
-
+-- 8
 SELECT 
 nombre,
  CONCAT(
  UPPER (left(nombre, 2)),
  LOWER(SUBSTRING(nombre, 3))
  ) as nombre
- 
- from fabricante;
-	
- SELECT
+  from fabricante;
+
+-- 9
+SELECT
 	nombre,
     round(precio) as dolares,
     round(precio * 0.93) as euros
 from producto;
 
-
+-- 10
 SELECT 
 	nombre,
 	TRUNCATE(precio, 0) as dolares,
     TRUNCATE(precio * 0.93, 0) as euros
 from producto;
 
-
+-- 11 y 12
 SELECT codigo 
 FROM fabricante 
 WHERE codigo in(
@@ -90,23 +91,162 @@ WHERE codigo in(
     FROM producto
 );
 
-
+-- 13 
 SELECT nombre
 FROM fabricante 
 ORDER BY nombre asc;
 
-
+-- 14
 SELECT nombre
 from producto
 order by nombre asc, precio desc;
 
-
+-- 15
 SELECT * FROM fabricante
 LIMIT 5;
 
-
+-- 16
 SELECT * FROM fabricante
 LIMIT 6 offset 3;
+
+-- 17
+select * 
+FROM fabricante
+LIMIT 2 offset 3;
+
+-- 18
+select nombre, precio
+from producto
+order by precio ASC
+limit 1;
+
+-- 19
+select nombre, precio
+from producto
+order by precio desc
+limit 1;
+
+-- 20
+select nombre
+from producto
+where codigo_fabricante = 2;
+
+-- 21
+select nombre
+from producto
+where ROUND(precio * 0.93, 2) <= 120;
+
+-- 22
+select nombre
+from producto
+where ROUND(precio * 0.93,2) >= 400;
+
+-- 23
+select nombre
+from producto
+where NOT ROUND(precio * 0.93,2) >= 400;
+
+-- 24
+select nombre
+from producto
+where ROUND(precio * 0.93, 2) >= 80 AND ROUND(precio * 0.93, 2) <= 300;
+
+-- 25
+select nombre
+from producto
+where ROUND(precio * 0.93, 2) BETWEEN 60 AND 200;
+
+-- 26
+SELECT 
+	nombre, 
+    precio AS precio_usd, 
+    ROUND(precio * 0.93, 2) AS precio_eur
+FROM producto
+WHERE codigo_fabricante = 6 AND ROUND(precio * 0.93, 2) >= 200;
+
+
+-- 27
+SELECT nombre as Nombre_producto
+FROM producto
+WHERE codigo_fabricante = 1 
+OR codigo_fabricante = 3 
+OR codigo_fabricante = 5;
+
+-- 28
+SELECT nombre as nombre_producto
+FROM producto
+WHERE codigo_fabricante IN (1, 3, 5);
+
+-- 29
+SELECT	
+	nombre as nombredeproducto,
+    precio as dolares,
+    ROUND(precio * 0.93, 2) as euros,
+    ROUND(precio * 100, 2) as centimos
+from producto;
+
+-- 30
+SELECT nombre from fabricante
+WHERE nombre LIKE 'S%';
+
+-- 31
+SELECT nombre from fabricante
+WHERE nombre like '%e';
+ 
+ -- 32
+SELECT nombre from fabricante
+WHERE nombre like '%w%'; 
+
+-- 33
+SELECT nombre
+FROM fabricante
+WHERE LENGTH(nombre) = 4;
+
+-- 34
+SELECT nombre
+FROM producto
+WHERE nombre like '%Portátil%';
+
+-- 35
+SELECT nombre
+FROM producto
+WHERE nombre like '%Monitor%' and ROUND(precio * 0.93, 2) <= 215;
+
+-- 36
+SELECT nombre, ROUND(precio * 0.93, 2) as euros
+from producto 
+where ROUND(precio * 0.93, 2) >= 180
+order by precio desc, nombre asc;
+
+-- 1.1.4
+
+-- 1
+SELECT p.nombre as producto, p.precio, f.nombre as fabricante
+	from producto as p
+JOIN fabricante as f on p.codigo_fabricante = f.codigo;
+
+-- 2
+SELECT p.nombre as producto, p.precio, f.nombre as fabricante
+	from producto as p
+JOIN fabricante as f on p.codigo_fabricante = f.codigo
+order by f.nombre asc;
+
+-- 3
+select p.codigo as codigo_producto, p.nombre as producto, f.codigo as codigo_fabricante, f.nombre as fabricante
+	from producto as p
+JOIN fabricante as f on p.codigo_fabricante = f.codigo;
+
+-- 4 
+select p.nombre as producto, p.precio, f.nombre as fabricante
+	from producto as p
+JOIN fabricante as f on p.codigo_fabricante = f.codigo
+order by p.precio asc
+limit 1;
+
+ 
+
+
+
 
 
 
