@@ -24,13 +24,10 @@ CALL insertar_producto('Impresora HP Laserjet Pro M26nw', 180, 3);
 
 select * from producto;
 
-
-
-
-
+-- 1
 SELECT nombre from producto;
 
-
+-- 2
 SELECT nombre, precio from producto;
 
 
@@ -108,6 +105,41 @@ LIMIT 5;
 SELECT * FROM fabricante
 LIMIT 6 offset 3;
 
+/*
+select * 
+FROM fabricante
+LIMIT 2 offset 3;
+*/
+
+select nombre, precio
+from producto
+order by precio ASC
+limit 1;
+
+select nombre, precio
+from producto
+order by precio desc
+limit 1;
+
+select nombre
+from producto
+where codigo_fabricante = 2;
+
+select nombre
+from producto
+where ROUND(precio * 0.93, 2) <= 120;
+
+select nombre
+from producto
+where ROUND(precio * 0.93, 2) >= 400;
+
+select nombre
+from producto
+where NOT ROUND(precio * 0.93, 2) >= 400;
+
+select nombre
+from producto
+where ROUND(precio * 0.93, 2) >= 80 AND ROUND(precio * 0.93, 2) <= 300;
 
 
 
