@@ -243,8 +243,97 @@ JOIN fabricante as f on p.codigo_fabricante = f.codigo
 order by p.precio asc
 limit 1;
 
- 
+-- 5
+SELECT 
+    p.nombre AS producto, p.precio, f.nombre AS fabricante
+FROM
+    producto AS p
+        JOIN
+    fabricante AS f ON p.codigo_fabricante = f.codigo
+ORDER BY p.precio DESC
+LIMIT 1;
 
+-- 6 
+SELECT p.nombre
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE TRIM(f.nombre) = 'Lenovo';
+
+-- 7
+SELECT p.nombre as producto
+FROM producto as p
+JOIN fabricante as f on p.codigo_fabricante = f.codigo 
+where TRIM(f.nombre) = 'Crucial' and ROUND(precio * 0.93, 2) >= 200;
+
+-- 8
+SELECT p.nombre as producto
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE TRIM(f.nombre) = 'Asus' or trim(f.nombre) = 'Hewlett-Packard' or trim(f.nombre) = 'Seagate';
+
+-- 9
+SELECT p.nombre as producto
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+where f.nombre IN ('Asus', 'Hewlett-Packard', 'Seagate');
+
+-- 10
+SELECT p.nombre as producto, p.precio 
+from producto as p
+JOIN fabricante as f ON p.codigo_fabricante = f.codigo
+where f.nombre like '%e';
+
+-- 11
+SELECT p.nombre as producto, p.precio 
+from producto as p
+JOIN fabricante as f ON p.codigo_fabricante = f.codigo
+where f.nombre like '%w%';
+
+-- 12
+SELECT p.nombre as producto, p.precio, f.nombre
+from producto as p
+JOIN fabricante as f ON p.codigo_fabricante = f.codigo
+where ROUND(precio * 0.93, 2) >= 180
+order by p.precio desc , nombre asc; 
+
+-- 13
+SELECT f.codigo, f.nombre as producto
+from producto as p
+JOIN fabricante as f ON p.codigo_fabricante = f.codigo
+GROUP BY f.codigo, f.nombre;
+
+-- 1.1.5
+
+-- 1
+SELECT f.nombre as fabricante, p.nombre as producto
+from fabricante as f
+LEFT JOIN producto as p ON p.codigo_fabricante = f.codigo;
+
+-- 2
+SELECT f.nombre as fabricate
+from fabricante as f
+LEFT JOIN producto as p ON p.codigo_fabricante = f.codigo
+where p.codigo is NULL;
+
+-- 3
+SELECT *
+FROM producto AS p
+LEFT JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.codigo IS NULL;
+
+-- 1.1.6
+
+-- 1
+SELECT COUNT(*) AS total_productos
+FROM producto;
+
+-- 2
+SELECT COUNT(*) AS total_fabricantes
+FROM fabricante;
+
+-- 3
+SELECT COUNT(DISTINCT codigo_fabricante) AS fabricantes_diferentes
+FROM producto;
 
 
 
