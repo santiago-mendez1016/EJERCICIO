@@ -302,6 +302,8 @@ from producto as p
 JOIN fabricante as f ON p.codigo_fabricante = f.codigo
 GROUP BY f.codigo, f.nombre;
 
+
+
 -- 1.1.5
 
 -- 1
@@ -321,6 +323,8 @@ FROM producto AS p
 LEFT JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
 WHERE f.codigo IS NULL;
 
+
+
 -- 1.1.6
 
 -- 1
@@ -334,6 +338,194 @@ FROM fabricante;
 -- 3
 SELECT COUNT(DISTINCT codigo_fabricante) AS fabricantes_diferentes
 FROM producto;
+
+-- 4
+SELECT AVG(precio) AS media_precio
+FROM producto;
+
+-- 5
+SELECT MIN(precio) AS precio_mas_barato
+FROM producto;
+
+-- 6
+SELECT max(precio) AS precio_mas_caro
+FROM producto;
+
+-- 7
+SELECT nombre, precio
+FROM producto
+WHERE precio = (SELECT MIN(precio) FROM producto);
+
+-- 8
+SELECT nombre, precio
+FROM producto
+WHERE precio = (SELECT max(precio) FROM producto);
+
+-- 9 
+SELECT SUM(precio) as suma_precios
+FROM producto;
+
+-- 10 
+SELECT COUNT(*) AS cantidad_productos
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.nombre = 'Asus';
+
+-- 11
+SELECT avg(p.precio) AS media_precio_asus
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.nombre = 'Asus';
+
+-- 12
+SELECT MIN(p.precio) AS precio_minimo
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.nombre = 'Asus';
+
+
+-- 13 
+SELECT MAX(p.precio) AS precio_minimo
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.nombre = 'Asus';
+
+-- 14
+SELECT sum(p.precio) AS precio_minimo
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.nombre = 'Asus';
+
+-- 15 (IMPORTANTE)
+SELECT MAX(p.precio) AS precio_maximo, MIN(p.precio) AS precio_minimo, AVG(p.precio) AS precio_medio, COUNT(*) AS total_productos
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE f.nombre = 'Crucial';
+
+-- 16
+SELECT f.nombre AS fabricante, COUNT(p.codigo_fabricante) AS total_productos
+FROM fabricante AS f
+LEFT JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre
+ORDER BY total_productos DESC;
+
+
+-- 17 
+SELECT f.nombre AS fabricante, 
+	MAX(p.precio) AS precio_maximo, 
+    MIN(p.precio) AS precio_minimo, 
+    AVG(p.precio) AS precio_medio
+FROM fabricante AS f
+LEFT JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre;
+
+
+-- 18
+SELECT 
+  p.codigo_fabricante,
+  MAX(p.precio) AS precio_maximo,
+  MIN(p.precio) AS precio_minimo,
+  AVG(p.precio) AS precio_medio,
+  COUNT(*) AS total_productos
+FROM producto AS p
+GROUP BY p.codigo_fabricante
+HAVING AVG(p.precio)* 0.93  > 200;
+
+-- 19
+SELECT 
+  p.codigo_fabricante,
+  MAX(p.precio) AS precio_maximo,
+  MIN(p.precio) AS precio_minimo,
+  AVG(p.precio) AS precio_medio,
+  COUNT(*) AS total_productos
+FROM producto AS p
+GROUP BY p.codigo_fabricante
+HAVING AVG(p.precio )* 0.93 > 200;
+
+-- 20
+SELECT COUNT(*) AS cantidad_productos
+FROM producto
+WHERE (precio * 0.93) >= 180;
+
+-- 21 
+SELECT f.nombre AS fabricante, COUNT(*) AS cantidad_productos
+FROM producto AS p
+JOIN fabricante AS f ON p.codigo_fabricante = f.codigo
+WHERE p.precio * 0.93 >= 180
+GROUP BY f.codigo, f.nombre;
+
+-- 22
+SELECT p.codigo_fabricante AS fabricante_id, 
+       p.precio AS precio
+FROM producto AS p
+GROUP BY p.codigo_fabricante;
+
+-- 23
+SELECT f.nombre AS fabricante,
+       p.precio AS precio_medio_euros
+FROM fabricante AS f
+LEFT JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre;
+
+-- 24 
+SELECT f.nombre AS fabricante
+FROM fabricante AS f
+JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre
+HAVING AVG(p.precio * 0.93) >= 150;
+
+-- 25
+SELECT f.nombre AS fabricante
+FROM fabricante AS f
+JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre
+HAVING COUNT(p.codigo) >= 2;
+
+-- 26 
+SELECT f.nombre AS nombre, COUNT(p.codigo) AS total
+FROM fabricante AS f
+JOIN producto AS p ON f.codigo = p.codigo_fabricante
+WHERE ROUND(p.precio * 0.93, 2) >= 220
+GROUP BY f.nombre;
+
+-- 27
+SELECT f.nombre AS nombre,
+       COUNT(CASE WHEN ROUND(p.precio * 0.93, 2) >= 220 THEN 1 END) AS total
+FROM fabricante AS f
+LEFT JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre
+ORDER BY f.nombre;
+
+-- 28 
+SELECT f.nombre, SUM(ROUND(p.precio * 0.93, 2)) AS suma_en_euros
+FROM fabricante AS f
+JOIN producto AS p ON f.codigo = p.codigo_fabricante
+GROUP BY f.nombre;
+
+-- 29
+SELECT p.nombre AS producto, p.precio, f.nombre AS fabricante
+FROM producto p
+JOIN fabricante f ON p.codigo_fabricante = f.codigo
+WHERE (p.codigo_fabricante, p.precio) IN (
+    SELECT codigo_fabricante, MAX(precio)
+    FROM producto
+    GROUP BY codigo_fabricante
+)
+ORDER BY f.nombre ASC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
